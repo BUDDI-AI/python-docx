@@ -196,6 +196,12 @@ class _Cell(BlockItemContainer):
         super(_Cell, self).__init__(tc, parent)
         self._tc = self._element = tc
 
+    def bg_fill_color(self):
+        """
+        Return the background fill color for this cell.
+        """
+        return tc.bg_fill_color
+
     def add_paragraph(self, text='', style=None):
         """
         Return a paragraph newly added to the end of the content in this

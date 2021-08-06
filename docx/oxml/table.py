@@ -12,7 +12,7 @@ from ..exceptions import InvalidSpanError
 from .ns import nsdecls, qn
 from ..shared import Emu, Twips
 from .simpletypes import (
-    ST_Merge, ST_TblLayoutType, ST_TblWidth, ST_TwipsMeasure, XsdInt
+    ST_HexColor, ST_Merge, ST_TblLayoutType, ST_TblWidth, ST_TwipsMeasure, XsdInt
 )
 from .xmlchemy import (
     BaseOxmlElement, OneAndOnlyOne, OneOrMore, OptionalAttribute,
@@ -365,6 +365,12 @@ class CT_TblWidth(BaseOxmlElement):
         self.type = 'dxa'
         self.w = Emu(value).twips
 
+class CT_TcShd(BaseOxmlElement):
+    """
+    ``<w:shd>`` element, defining a table cell's background fill color.
+    """
+    fill = OptionalAttribute('w:fill', ST_HexColor)
+
 
 class CT_Tc(BaseOxmlElement):
     """`w:tc` table cell element"""
@@ -372,6 +378,18 @@ class CT_Tc(BaseOxmlElement):
     tcPr = ZeroOrOne('w:tcPr')  # bunches of successors, overriding insert
     p = OneOrMore('w:p')
     tbl = OneOrMore('w:tbl')
+
+    @property
+    def bg_fill_color(self):
+        """
+        The background fill color of this cell. Determined by
+        ./w:tcPr/w:shd/@fill, it defaults to None.
+        """
+        tcPr = self.tcPr
+        if tcPr is None:
+            return 1
+        return tcPr.bg_fill_color
+
 
     @property
     def bottom(self):
@@ -762,7 +780,15 @@ class CT_TcPr(BaseOxmlElement):
     gridSpan = ZeroOrOne('w:gridSpan', successors=_tag_seq[3:])
     vMerge = ZeroOrOne('w:vMerge', successors=_tag_seq[5:])
     vAlign = ZeroOrOne('w:vAlign', successors=_tag_seq[12:])
+    shd = ZeroOrOne('w:shd', successors=_tag_seq[7:])
     del _tag_seq
+
+    @property
+    def bg_fill_color(self):
+        shd = self.shd
+        if shd is None:
+            return None
+        return shd.fill
 
     @property
     def grid_span(self):
