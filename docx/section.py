@@ -49,6 +49,10 @@ class Section(object):
         self._document_part = document_part
 
     @property
+    def columns(self):
+        return self._sectPr.columns
+
+    @property
     def bottom_margin(self):
         """
         |Length| object representing the bottom margin for all pages in this
