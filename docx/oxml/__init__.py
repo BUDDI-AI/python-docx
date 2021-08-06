@@ -93,6 +93,7 @@ from .section import (  # noqa
     CT_PageSz,
     CT_SectPr,
     CT_SectType,
+    CT_PageCols,
 )
 register_element_cls("w:footerReference", CT_HdrFtrRef)
 register_element_cls("w:ftr", CT_HdrFtr)
@@ -100,6 +101,7 @@ register_element_cls("w:hdr", CT_HdrFtr)
 register_element_cls("w:headerReference", CT_HdrFtrRef)
 register_element_cls("w:pgMar", CT_PageMar)
 register_element_cls("w:pgSz", CT_PageSz)
+register_element_cls("w:cols", CT_PageCols)
 register_element_cls("w:sectPr", CT_SectPr)
 register_element_cls("w:type", CT_SectType)
 
@@ -163,6 +165,7 @@ from .table import (  # noqa
     CT_TrPr,
     CT_VMerge,
     CT_VerticalJc,
+    CT_TcShd,
 )
 register_element_cls('w:bidiVisual', CT_OnOff)
 register_element_cls('w:gridCol',    CT_TblGridCol)
@@ -180,6 +183,7 @@ register_element_cls('w:trHeight',   CT_Height)
 register_element_cls('w:trPr',       CT_TrPr)
 register_element_cls('w:vAlign',     CT_VerticalJc)
 register_element_cls('w:vMerge',     CT_VMerge)
+register_element_cls('w:shd',        CT_TcShd)
 
 from .text.font import (  # noqa
     CT_Color,
